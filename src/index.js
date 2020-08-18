@@ -47,6 +47,14 @@ function Square(props) {
   );
 }
 
+function Row(props) {
+  return (
+    <div className="board-row">
+      {props.elems}
+    </div>
+  )
+}
+
 class Board extends React.Component {
   renderSquare(i) {
     return (
@@ -57,28 +65,31 @@ class Board extends React.Component {
     );
   }
 
+  renderRow(e) {
+    return <Row elems={e} />
+  }
+
   render() {
+    let counter = 0;
+    let rows = [];
+
+    for (let i=0; i<3; i++) {
+      let cols = [];
+      for (let y=0; y<3; y++) {
+        cols = cols.concat([this.renderSquare(counter)]);
+        counter++;
+      }
+      rows = rows.concat(this.renderRow(cols));
+    }
+
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
+      <div>{rows}</div>
+      
     );
   }
 }
+
+
 
 class Game extends React.Component {
   constructor(props) {
